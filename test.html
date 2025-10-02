@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.2.1/dist/index.min.js"></script>
+    <meta charset="UTF-8" />
+
+    <style>
+      @font-face {
+        font-family: "mainFont";
+        src: url(data:font/woff2;base64,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)
+          format("woff2");
+        font-weight: normal;
+        font-style: normal;
+      }
+      /* Общий фон и текст */
+      body {
+        font-family: "mainFont", sans-serif;
+        text-align: center;
+        background: #121212; /* тёмный фон */
+        color: #eee; /* светлый текст */
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #111; /* фон */
+      }
+
+      #game-wrapper {
+        width: 100%;
+        max-width: 500px; /* не шире 500px */
+        aspect-ratio: 9 / 16; /* сохраняем пропорции 9:16 */
+        background: #222; /* фон контейнера */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #game-container {
+        width: 100%;
+        height: 100%;
+        transform-origin: top left;
+        display: flex;
+        justify-content: center; /* по горизонтали */
+        align-items: center; /* по вертикали */
+        overflow: hidden;
+      }
+
+      /* Меню */
+      #menu {
+        font-family: "mainFont";
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Кнопки */
+      #menu button {
+        font-family: "mainFont";
+        width: 220px;
+        padding: 15px 20px;
+        margin: 12px 0;
+        font-size: 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #333; /* тёмно-серая кнопка */
+        color: #eee; /* светлый текст */
+        transition: 0.2s;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); /* лёгкая тень */
+      }
+
+      #menu button:hover {
+        animation: none;
+        background: #aeea00; /* чуть светлее */
+        transform: scale(1.05); /* лёгкое увеличение */
+        transition: 0.15s;
+      }
+
+      /* Игровое поле */
+      #board {
+        display: none;
+        margin-top: 15px;
+        background: #1e1e1e; /* тёмный фон поля */
+        padding: 5px;
+        border-radius: 5px;
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+      }
+      #board {
+        gap: 3px; /* расстояние между клетками */
+      }
+
+      #intro {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 500px;
+      }
+
+      .examples {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin: 20px 0;
+      }
+
+      .example {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+      }
+
+      .mini-board {
+        display: grid;
+        grid-template-columns: repeat(3, 30px);
+        grid-template-rows: repeat(3, 30px);
+        gap: 3px;
+        margin-bottom: 10px;
+      }
+
+      #intro button {
+        margin-top: 20px;
+        padding: 12px 25px;
+        font-size: 18px;
+        border-radius: 8px;
+        border: none;
+        background: #333;
+        color: #eee;
+        cursor: pointer;
+      }
+
+      #intro button:hover {
+        background: #aeea00;
+        transform: scale(1.05);
+      }
+
+      #menu,
+      #board {
+        display: none;
+      }
+
+      .cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #2b2b2b; /* закрытые клетки */
+        border: none;
+        color: #fff; /* цифры белые */
+        cursor: pointer;
+        font-weight: bold;
+        user-select: none;
+        border-radius: 6px; /* ← закругление углов */
+        position: relative;
+        box-sizing: border-box;
+      }
+
+      .cell.open.one-bomb {
+        background: url("https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/one-skul-MvNegJEQN0gfgoQdbxY6tOq0RxYZFA.png?FOky")
+          no-repeat center center;
+        background-color: #1a1a1a;
+        background-size: 70%;
+      }
+      .cell.open.multi-bombs {
+        background: url("https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/many-skul-7Ayc4ibZEV0cVUfl3WogHG0wi0QlVE.png?9B6V")
+          no-repeat center center;
+        background-color: #1a1a1a;
+        background-size: 70%;
+        transform: scale(1); /* лёгкое увеличение */
+        transition: 0s;
+      }
+      .cell.open {
+        background-color: #1a1a1a;
+        animation: none;
+      }
+
+      .cell.demo {
+        pointer-events: none;
+        cursor: default;
+        width: 30px;
+        height: 30px;
+      }
+
+      .cell.demo.bomb {
+        position: relative; /* нужно для позиционирования псевдоэлемента */
+        background: #1a1a1a;
+        border: 2px solid #a33;
+        overflow: visible; /* чтобы изображение не обрезалось */
+      }
+      .cell.demo.mine {
+        background: #5a0000;
+        color: transparent;
+        position: relative;
+
+        animation: mine-flash 0.3s steps(2, end) infinite;
+        animation-delay: 0s !important; /* 🚫 исключаем задержку */
+        animation-fill-mode: both;
+        pointer-events: none;
+        transition: none !important; /* 🚫 убираем плавные переходы */
+        will-change: background-color, box-shadow; /* ⚡ подсказываем браузеру */
+      }
+
+      @keyframes mine-flash {
+        from {
+          background-color: #5a0000;
+        }
+        to {
+          background-color: #ff0000;
+        }
+      }
+
+      .cell.demo.bomb::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 64px; /* размер взрыва */
+        height: 64px;
+        background: url("https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/explosion%20demo-xBevQj2ErXdLahUn3SPKRk0v5rEqEr.png?huVH")
+          no-repeat center center;
+        background-size: contain;
+        z-index: 10; /* выше клетки */
+        pointer-events: none; /* не мешает кликам */
+      }
+      .cell.prebomb {
+        background: #5a0000;
+        border: 2px solid #ff3333;
+        color: transparent;
+        position: relative;
+
+        animation: prebomb-flash 0.15s steps(20, end) infinite;
+        animation-delay: 0s !important; /* 🚫 исключаем задержку */
+        animation-fill-mode: both;
+        pointer-events: none;
+        transition: none !important; /* 🚫 убираем плавные переходы */
+        will-change: background-color, box-shadow; /* ⚡ подсказываем браузеру */
+      }
+
+      @keyframes prebomb-flash {
+        from {
+          background-color: #5a0000;
+          box-shadow: none;
+        }
+        to {
+          background-color: #ff0000;
+          box-shadow:
+            0 0 10px #ff0000,
+            0 0 20px #ff3333;
+        }
+      }
+
+      .cell.prebomb.bomb {
+        background: none !important; /* убираем фон */
+        color: transparent; /* скрываем цифры/символы */
+        border: 2px solid #a33; /* рамка вместо клетки */
+        opacity: 1; /* чтобы не исчезала */
+        animation: none !important;
+        box-shadow: none !important;
+        transform: none !important;
+      }
+      .cell:hover {
+        animation: none;
+        background: #aeea00; /* чуть светлее */
+        transform: scale(1.05); /* лёгкое увеличение */
+        transition: 0.15s; /* плавный эффект */
+      }
+      .cell.open:hover {
+        animation: none;
+        transform: scale(1); /* лёгкое увеличение */
+        transition: 0s; /* плавный эффект */
+        background-color: #007932; /* чуть светлее */
+        transition: background-color 0.15s; /* плавный эффект */
+      }
+      @keyframes breathe {
+        0%,
+        100% {
+          background-color: #2b2b2b; /* тёмно-серый */
+        }
+        50% {
+          background-color: #323232; /* чуть светлее */
+        }
+      }
+
+      .cell {
+        animation: breathe 4s ease-in-out infinite;
+      }
+
+      .explosion {
+        width: 64px;
+        height: 64px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* центрируем точно */
+        pointer-events: none;
+        background: url("https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/sprite_sheet-2XCxd0PdERtoRs5gZ9OuQs7zHDDjJ1.png?WCje")
+          0 0 no-repeat;
+        background-size: 1984px 64px; /* 31 кадров по 64px */
+        animation: explode 1.5s steps(32) forwards;
+        z-index: 1000;
+      }
+      .cell.paused {
+        animation-play-state: paused;
+      }
+
+      @keyframes explode {
+        from {
+          background-position: 0 0;
+        }
+        to {
+          background-position: -1984px 0;
+        } /* 31 * 64 */
+      }
+    </style>
+  </head>
+  <body onload="gameReady()">
+    <audio
+      id="sound-back"
+      preload="auto"
+      src="https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/sound-main-V0aA8DLZgkWimDabn3MSnCzoKcDaCg.mp3?A8tk"
+    ></audio>
+    <audio
+      id="sound-bone"
+      preload="auto"
+      src="https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/sound-bone-3Ujpc0V6GHgqQzEVcvW2GnIyNVwEvX.mp3?gsqu"
+    ></audio>
+    <audio
+      id="sound-explosion"
+      preload="auto"
+      src="https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/sound-explosion-Z7u4tPNrKo84GDCWjkKMrXBgramadr.mp3?XA7e"
+    ></audio>
+    <audio
+      id="sound-click"
+      preload="auto"
+      src="https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/sound-click-i1max7NAgE5Gd0NUqSY347w5k5QsrU.mp3?JozG"
+    ></audio>
+    <audio
+      id="sound-win"
+      preload="auto"
+      src="https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/sound-win-SHLAafrVAz6bJlmNwtj9WzDpNIWs1S.mp3?w0Ml"
+    ></audio>
+
+    <div id="game-wrapper">
+      <div id="game-container">
+        <!-- Страница-инструкция -->
+        <div id="intro">
+          <h2>Как играть в Сапёра</h2>
+          <div class="examples">
+            <!-- Пример: пустая клетка -->
+            <div class="example">
+              <div class="mini-board">
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo open"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+              </div>
+              <p>Пустая клетка – безопасно.</p>
+            </div>
+
+            <!-- Пример: одна мина рядом -->
+            <div class="example">
+              <div class="mini-board">
+                <div class="cell demo mine"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo open one-bomb"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+              </div>
+              <p>Цифра «1» – рядом одна мина.</p>
+            </div>
+
+            <!-- Пример: несколько мин рядом -->
+            <div class="example">
+              <div class="mini-board">
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo mine"></div>
+                <div class="cell demo mine"></div>
+                <div class="cell demo open multi-bombs"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo mine"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo mine"></div>
+              </div>
+              <p>Цифра больше «1» – рядом несколько мин.</p>
+            </div>
+
+            <!-- Пример: мина -->
+            <div class="example">
+              <div class="mini-board">
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo bomb"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+                <div class="cell demo"></div>
+              </div>
+              <p>Мина 💀 – игра окончена!</p>
+            </div>
+          </div>
+          <button onclick="goToMenu()">Перейти к игре</button>
+        </div>
+        <!-- Меню -->
+
+        <div id="menu">
+          <p>Choose difficulty level:</p>
+          <button onclick="startGame('easy')">Beginner</button>
+          <button onclick="startGame('medium')">Expert</button>
+          <button onclick="startGame('hard')">Professional</button>
+        </div>
+
+        <!-- Игровое поле -->
+        <div id="board"></div>
+      </div>
+    </div>
+
+    <script>
+      let board = [];
+      let rows, cols, bombs;
+      let currentLevel = null;
+      let muted = false;
+      let cellSize = 30;
+
+      window.FarcadeSDK.on("toggle_mute", (data) => {
+        setMuted(data.isMuted);
+      });
+
+      function setMuted(value) {
+        muted = value;
+      }
+
+      function gameReady() {
+        document.querySelectorAll(".cell").forEach((cell) => {
+          let delay = (Math.random() * 4).toFixed(2) + "s"; // от 0 до 4 сек
+          cell.style.animationDelay = delay;
+        });
+        if (window.FarcadeSDK) {
+          window.FarcadeSDK.singlePlayer.actions.ready();
+        }
+        window.addEventListener("resize", recalculateCellSize);
+      }
+
+      function recalculateCellSize() {
+        if (!board.length || !rows || !cols) return;
+        const boardEl = document.getElementById("board");
+        const gap = 3 * (cols - 1); // approximate total gap
+        const padding = 10 * 2; // padding
+        const availableWidth = boardEl.clientWidth - padding;
+        const availableHeight = boardEl.clientHeight - padding;
+        const newSize = Math.min(Math.floor((availableWidth - gap) / cols), Math.floor((availableHeight - gap) / rows));
+        cellSize = Math.max(newSize, 20); // min size
+        const cells = boardEl.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+          cell.style.width = cellSize + "px";
+          cell.style.height = cellSize + "px";
+        });
+        // Scale explosion if needed
+        const explosions = boardEl.querySelectorAll(".explosion");
+        explosions.forEach((exp) => {
+          exp.style.width = cellSize * 2 + "px";
+          exp.style.height = cellSize * 2 + "px";
+          exp.style.backgroundSize = cellSize * 2 * 31 + "px " + cellSize * 2 + "px";
+        });
+      }
+
+      function playSound(name, volum) {
+        if (muted) {
+          return;
+        }
+        const s = document.getElementById(name);
+        s.currentTime = 0; // начинаем с начала
+        s.volume = volum; // тише
+        s.play();
+      }
+
+      function stopSound(name) {
+        if (muted) {
+          return;
+        }
+        const s = document.getElementById(name);
+        s.pause(); // остановка
+        s.currentTime = 0; // сброс
+      }
+
+      function triggerExplosion(cell) {
+        let explosion = document.createElement("div");
+        explosion.className = "explosion";
+        explosion.style.width = cellSize * 2 + "px";
+        explosion.style.height = cellSize * 2 + "px";
+        explosion.style.backgroundSize = cellSize * 2 * 31 + "px " + cellSize * 2 + "px";
+        cell.appendChild(explosion);
+        explosion.addEventListener("animationend", () => explosion.remove());
+      }
+
+      function goToMenu() {
+        document.getElementById("intro").style.display = "none";
+        document.getElementById("menu").style.display = "flex";
+      }
+
+      function startGame(level) {
+        currentLevel = level;
+        if (level === "easy") {
+          rows = cols = 7;
+          bombs = 7;
+        } else if (level === "medium") {
+          rows = cols = 11;
+          bombs = 14;
+        } else {
+          rows = 16;
+          cols = 11;
+          bombs = 24;
+        }
+
+        playSound("sound-back", 0.4);
+
+        // Скрываем меню, показываем поле
+        document.getElementById("menu").style.display = "none";
+        const boardEl = document.getElementById("board");
+        boardEl.style.display = "grid";
+
+        board = [];
+        boardEl.innerHTML = "";
+        boardEl.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        boardEl.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+        // Создаём клетки
+        for (let r = 0; r < rows; r++) {
+          board[r] = [];
+          for (let c = 0; c < cols; c++) {
+            const cell = document.createElement("div");
+            cell.className = "cell";
+            cell.onclick = () => openCell(r, c, level);
+            boardEl.appendChild(cell);
+            board[r][c] = { bomb: false, open: false, count: 0, el: cell };
+          }
+        }
+
+        // Initial scaling
+        setTimeout(recalculateCellSize, 100);
+
+        document.querySelectorAll(".cell").forEach((cell) => {
+          let delay = (Math.random() * 4).toFixed(2) + "s"; // от 0 до 4 сек
+          cell.style.animationDelay = delay;
+        });
+
+        // Расставляем бомбы
+        let placed = 0;
+        while (placed < bombs) {
+          let r = Math.floor(Math.random() * rows);
+          let c = Math.floor(Math.random() * cols);
+          if (!board[r][c].bomb) {
+            board[r][c].bomb = true;
+            placed++;
+          }
+        }
+
+        // Считаем числа
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            if (board[r][c].bomb) continue;
+            let count = 0;
+            for (let dr = -1; dr <= 1; dr++) {
+              for (let dc = -1; dc <= 1; dc++) {
+                let nr = r + dr,
+                  nc = c + dc;
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc].bomb) count++;
+              }
+            }
+            board[r][c].count = count;
+          }
+        }
+        document.querySelectorAll(".cell").forEach((cell) => {
+          cell.addEventListener("mouseenter", () => {
+            playSound("sound-click", 1);
+          });
+        });
+      }
+
+      function openCell(r, c, level, triggerSound = true) {
+        const cell = board[r][c];
+        if (cell.open) return;
+        cell.open = true;
+        if (!cell.bomb) {
+          cell.el.classList.add("open");
+        }
+
+        if (cell.bomb) {
+          stopSound("sound-back");
+          window.FarcadeSDK.singlePlayer.actions.hapticFeedback();
+          playSound("sound-explosion", 1);
+          cell.el.classList.add("prebomb");
+
+          setTimeout(() => (cell.el.classList.add("bomb"), triggerExplosion(cell.el)), 300);
+          document.querySelectorAll(".cell").forEach((c) => {
+            if (!c.classList.contains("prebomb")) {
+              c.classList.add("paused");
+            }
+          });
+          setTimeout(() => window.FarcadeSDK.singlePlayer.actions.gameOver({ score: 0 }), 2000);
+          // revealAll();
+          return;
+        }
+
+        if (cell.count > 0) {
+          if (triggerSound) {
+            playSound("sound-bone", 1);
+          }
+          if (cell.count === 1) {
+            cell.el.classList.add("one-bomb"); // одна бомбочка
+          } else if (cell.count > 1) {
+            cell.el.classList.add("multi-bombs"); // кучка бомбочек
+          }
+        } else {
+          // раскрываем соседей рекурсивно
+          for (let dr = -1; dr <= 1; dr++) {
+            for (let dc = -1; dc <= 1; dc++) {
+              let nr = r + dr,
+                nc = c + dc;
+              if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+                openCell(nr, nc, level, false);
+              }
+            }
+          }
+        }
+
+        checkWin(level);
+      }
+      window.FarcadeSDK.on("play_again", () => {
+        startGame(currentLevel);
+      });
+
+      function revealAll() {
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const cell = board[r][c];
+            if (cell.bomb) {
+              cell.el.classList.add("open", "bomb");
+              cell.el.textContent = "💣";
+            } else if (!cell.open) {
+              cell.el.classList.add("open");
+              if (cell.count > 0) cell.el.textContent = cell.count;
+            }
+          }
+        }
+      }
+
+      function checkWin(level) {
+        let opened = 0;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            if (board[r][c].open && !board[r][c].bomb) opened++;
+          }
+        }
+        if (opened === rows * cols - bombs) {
+          playSound("sound-win", 1);
+          if (level == "easy") {
+            var sc = 70;
+          }
+          if (level == "medium") {
+            var sc = 150;
+          }
+          if (level == "hard") {
+            var sc = 300;
+          }
+          setTimeout(() => window.FarcadeSDK.singlePlayer.actions.gameOver({ score: sc }), 2000);
+        }
+      }
+    </script>
+  </body>
+</html>
