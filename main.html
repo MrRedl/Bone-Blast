@@ -28,6 +28,21 @@ html, body {
   justify-content: center;
   background: #111; /* фон */
 }
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* чтобы не было скролла */
+  background: #111;
+}
+
+#game-scale {
+  width: 540px;   /* твоя базовая ширина макета */
+  height: 960px;  /* твоя базовая высота макета (9:16) */
+  transform-origin: top center;
+}
+
 
 #game-wrapper {
   width: 100%;
@@ -103,15 +118,15 @@ html, body {
 .examples {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 25px;
-  margin: 20px 0;
+  gap: 15px;
+  margin: 10px 0;
 }
 
 .example {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .mini-board {
@@ -123,6 +138,7 @@ html, body {
 }
 
 #intro button {
+  font-family: 'mainFont';
   margin-top: 20px;
   padding: 12px 25px;
   font-size: 18px;
@@ -312,11 +328,12 @@ animation: none; }
 <audio id="sound-click" preload="auto" src="https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/sound-click-i1max7NAgE5Gd0NUqSY347w5k5QsrU.mp3?JozG"></audio>
 <audio id="sound-win" preload="auto" src="https://lqy3lriiybxcejon.public.blob.vercel-storage.com/68a67155-9f4b-4de1-bdb2-1eee0a2185de/sound-win-SHLAafrVAz6bJlmNwtj9WzDpNIWs1S.mp3?w0Ml"></audio>
 
+<div id="game-scale">
  <div id="game-wrapper">
  <div id="game-container">
 <!-- Страница-инструкция -->
 <div id="intro">
-  <h2>Как играть в Сапёра</h2>
+  <h2>Bone Blast</h2>
   <div class="examples">
 
     <!-- Пример: пустая клетка -->
@@ -326,7 +343,7 @@ animation: none; }
         <div class="cell demo"></div><div class="cell demo open"></div><div class="cell demo"></div>
         <div class="cell demo"></div><div class="cell demo"></div><div class="cell demo"></div>
       </div>
-      <p>Пустая клетка – безопасно.</p>
+      <p>Empty cell - looks safe enough, right?</p>
     </div>
 
     <!-- Пример: одна мина рядом -->
@@ -336,7 +353,7 @@ animation: none; }
         <div class="cell demo"></div><div class="cell demo open one-bomb"></div><div class="cell demo"></div>
         <div class="cell demo"></div><div class="cell demo"></div><div class="cell demo"></div>
       </div>
-      <p>Цифра «1» – рядом одна мина.</p>
+      <p>Oops, there's a bomb nearby!</p>
     </div>
 
     <!-- Пример: несколько мин рядом -->
@@ -346,7 +363,7 @@ animation: none; }
         <div class="cell demo mine"></div><div class="cell demo open multi-bombs"></div><div class="cell demo"></div>
         <div class="cell demo mine"></div><div class="cell demo"></div><div class="cell demo mine"></div>
       </div>
-      <p>Цифра больше «1» – рядом несколько мин.</p>
+      <p>Careful — there are bombs all around!</p>
     </div>
 
     <!-- Пример: мина -->
@@ -356,11 +373,11 @@ animation: none; }
         <div class="cell demo"></div><div class="cell demo bomb"></div><div class="cell demo"></div>
         <div class="cell demo"></div><div class="cell demo"></div><div class="cell demo"></div>
       </div>
-      <p>Мина 💀 – игра окончена!</p>
+      <p>That's it! Game over!</p>
     </div>
-
   </div>
-  <button onclick="goToMenu()">Перейти к игре</button>
+  <div>Clear all cells without triggering a blast and claim your reward!</div>
+  <button onclick="goToMenu()">Next</button>
 </div>
 <!-- Меню -->
 
@@ -376,12 +393,14 @@ animation: none; }
 <div id="board"></div>
 </div>
  </div>
+ </div>
 
 <script>
 let board = [];
 let rows, cols, bombs;
 let currentLevel = null;
 let muted = false;
+let sc = 0;
 
 window.FarcadeSDK.on('toggle_mute', (data) => {
   setMuted(data.isMuted);
@@ -401,17 +420,21 @@ function gameReady() {
   }
 }
 function resizeGame() {
-  const baseWidth = 540;   // ширина макета (9:16)
-  const baseHeight = 960;  // высота макета (9:16)
+  const baseWidth = 540;
+  const baseHeight = 960;
 
-  const scaleX = window.innerWidth / baseWidth;
-  const scaleY = window.innerHeight / baseHeight;
+  const parentWidth = window.innerWidth;
 
-  const scale = Math.min(scaleX, scaleY);
+  // масштаб считаем только по ширине
+  const scale = parentWidth / baseWidth;
 
-  document.getElementById("game-scale").style.transform = `scale(${scale})`;
+  const gameScale = document.getElementById("game-scale");
+  if (gameScale) {
+    // пересчитываем реальные размеры
+    gameScale.style.width = baseWidth * scale + "px";
+    gameScale.style.height = baseHeight * scale + "px";
+  }
 }
-
 window.addEventListener("load", resizeGame);
 
 function playSound(name, volum) {
@@ -511,7 +534,10 @@ function openCell(r, c,level, triggerSound = true) {
   const cell = board[r][c];
   if (cell.open) return;
   cell.open = true;
-  if (!cell.bomb) {cell.el.classList.add("open");}
+  if (!cell.bomb) {
+    cell.el.classList.add("open");
+    sc = sc + 4;
+  }
 
   if (cell.bomb) {
     stopSound("sound-back");
@@ -526,7 +552,7 @@ function openCell(r, c,level, triggerSound = true) {
       c.classList.add("paused");
     }
     });
-    setTimeout(()=>window.FarcadeSDK.singlePlayer.actions.gameOver({ score: 0 }), 2000);
+    setTimeout(()=>window.FarcadeSDK.singlePlayer.actions.gameOver({ score: sc }), 2000);
     // revealAll();
     return;
   }
@@ -554,6 +580,7 @@ function openCell(r, c,level, triggerSound = true) {
 }
 window.FarcadeSDK.on('play_again', () => {
   startGame(currentLevel);
+  sc = 0;
 });
 
 function revealAll() {
@@ -580,9 +607,9 @@ function checkWin(level) {
   }
   if (opened === rows*cols - bombs) {
     playSound("sound-win", 1);
-    if (level == 'easy') {var sc = 70}
-    if (level == 'medium') {var sc = 150}
-    if (level == 'hard') {var sc = 300}
+    if (level == 'easy') {var sc = sc + 250}
+    if (level == 'medium') {var sc = sc + 500}
+    if (level == 'hard') {var sc = sc + 1000}
     setTimeout(()=>window.FarcadeSDK.singlePlayer.actions.gameOver({ score: sc }), 2000);
   }
 }
