@@ -57,6 +57,7 @@ html, body {
 #game-container {
   width: 500px;
   transform-origin: top left;
+  flex-direction: column;
   display: flex;
   justify-content: center; /* по горизонтали */
   align-items: center;     /* по вертикали */
@@ -98,7 +99,7 @@ html, body {
 /* Игровое поле */
 #board { 
   display: none; 
-  margin-top: 15px; 
+  margin-top: 2px; 
   background: #1e1e1e;    /* тёмный фон поля */
   padding: 5px; 
   border-radius: 5px; 
@@ -152,6 +153,20 @@ html, body {
 #intro button:hover {
   background: #aeea00;
   transform: scale(1.05);
+}
+
+#score_panel {
+  display: none;
+  justify-content: center;     /* по центру по горизонтали */
+  font-family: 'mainFont';
+  font-size: 20px;
+  color: #eee;
+  margin-bottom: 1px;
+  text-align: center;
+  background: #222;
+  padding: 8px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
 
 #menu, #board {
@@ -388,7 +403,7 @@ animation: none; }
   <button onclick="startGame('hard')">Professional</button>
 </div>
 
-
+<div id="score_panel">Score: 0</div>
 <!-- Игровое поле -->
 <div id="board"></div>
 </div>
@@ -408,6 +423,10 @@ window.FarcadeSDK.on('toggle_mute', (data) => {
 
 function setMuted(value) {
   muted = value;
+}
+
+function updateScore() {
+  document.getElementById("score_panel").textContent = "Score: " + sc;
 }
 
 function gameReady() {
@@ -476,6 +495,7 @@ function startGame(level) {
   document.getElementById("menu").style.display = "none";
   const boardEl = document.getElementById("board");
   boardEl.style.display = "inline-grid";
+  score_panel.style.display = "flex";
 
   board = [];
   boardEl.innerHTML = "";
@@ -537,6 +557,7 @@ function openCell(r, c,level, triggerSound = true) {
   if (!cell.bomb) {
     cell.el.classList.add("open");
     sc = sc + 4;
+    updateScore();
   }
 
   if (cell.bomb) {
@@ -550,6 +571,7 @@ function openCell(r, c,level, triggerSound = true) {
     document.querySelectorAll(".cell").forEach(c => {
     if (!c.classList.contains("prebomb")) {
       c.classList.add("paused");
+      c.onclick = null; // 🚫 запрет кликов
     }
     });
     setTimeout(()=>window.FarcadeSDK.singlePlayer.actions.gameOver({ score: sc }), 2000);
@@ -581,6 +603,7 @@ function openCell(r, c,level, triggerSound = true) {
 window.FarcadeSDK.on('play_again', () => {
   startGame(currentLevel);
   sc = 0;
+  updateScore();
 });
 
 function revealAll() {
@@ -607,10 +630,11 @@ function checkWin(level) {
   }
   if (opened === rows*cols - bombs) {
     playSound("sound-win", 1);
-    if (level == 'easy') {var sc = sc + 250}
-    if (level == 'medium') {var sc = sc + 500}
-    if (level == 'hard') {var sc = sc + 1000}
-    setTimeout(()=>window.FarcadeSDK.singlePlayer.actions.gameOver({ score: sc }), 2000);
+    if (level == 'easy') {sc += 250}
+    if (level == 'medium') {sc += 500}
+    if (level == 'hard') {sc += 1000}
+    updateScore();
+    setTimeout(()=>window.FarcadeSDK.singlePlayer.actions.gameOver({ score: Math.floor(sc) }), 2000);
   }
 }
 </script>
